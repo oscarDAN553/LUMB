@@ -21,10 +21,10 @@ func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
 	miClave := []byte("en nombre de la vida")
 	claims := &models.Claim{}
 
-	splitToken := strings.Split(tk, "bearer")
+	splitToken := strings.Split(tk, "Bearer")
 
 	if len(splitToken) != 2 {
-		return claims, false, string(""), errors.New("formato de token invalido")
+		return claims, false, string(""), errors.New("Formato de token invalido")
 	}
 	tk = strings.TrimSpace(splitToken[1])
 
