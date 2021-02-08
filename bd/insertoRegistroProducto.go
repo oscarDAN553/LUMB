@@ -15,13 +15,13 @@ func InsertoRegistroProducto(t models.Objeto) (string, bool, error) {
 	defer cancel()
 
 	bd := MongoCN.Database("LUMB")
-	col := bd.Collection("products")
+	col := bd.Collection("objets")
 
 	result, err := col.InsertOne(ctx, t)
 
 	if err != nil {
 		return "", false, err
 	}
-	objID := result.InsertedID.(primitive.ObjectID)
+	objID, _ := result.InsertedID.(primitive.ObjectID)
 	return objID.String(), true, nil
 }

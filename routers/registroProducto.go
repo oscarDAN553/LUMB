@@ -35,6 +35,7 @@ func RegistroProducto(w http.ResponseWriter, r *http.Request) {
 
 	if existe == true {
 		http.Error(w, "ESTE CODIGO DE BARRAS YA FUE REGISTRADO", 400)
+		return
 	}
 	_, status, err := bd.InsertoRegistroProducto(t)
 

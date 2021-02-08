@@ -14,9 +14,9 @@ func ChequeoYaExisteProducto(barras string) (models.Objeto, bool, string) {
 	defer cancel()
 
 	bd := MongoCN.Database("LUMB")
-	col := bd.Collection("products")
+	col := bd.Collection("objets")
 
-	condicion := bson.M{"cBarras": barras}
+	condicion := bson.M{"codigoDeBarras": barras}
 
 	var resultado models.Objeto
 
