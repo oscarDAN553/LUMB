@@ -14,9 +14,11 @@ type Objeto struct {
 	CodigoDeBarras  string    `bson:"codigoDeBarras" json:"codigoDeBarras"`
 	Color           string    `bson:"color" json:"color"`
 	Contenido       string    `bson:"contenido" json:"contenido,omitempty"`
-	Empaque         string    `bson:"empaque" json:"empaque"`
+	Empaque         []string  `bson:"empaque" json:"empaque"`
 	Capacidad       string    `bson:"capacidad" json:"capacidad,omitempty"`
 	Material        string    `bson:"material" json:"material,omitempty"`
+	HojaColor       string    `bson:"hojaColor" json:"hojaColor,omitempty"`
 	FechaDeRegistro time.Time `bson:"fechaDeRegistro" json:"fechaDeRegistro,omitempty"`
 	Imagen          string    `bson:"imagen" json:"imagen"`
+	Tags            []string  `bson:"tags" json:"tags,omitempty"`
 }
