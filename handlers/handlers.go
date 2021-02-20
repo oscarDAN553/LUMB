@@ -20,6 +20,8 @@ func Manejadores() {
 	router.HandleFunc("/verperfil", middlew.ChequeoBD(middlew.ValidoJWT(routers.VerPerfil))).Methods("GET")
 	router.HandleFunc("/registroproducto", middlew.ChequeoBD(middlew.ValidoJWT(routers.RegistroProducto))).Methods("POST")
 	router.HandleFunc("/consultaobjeto", middlew.ChequeoBD(middlew.ValidoJWT(routers.ConsultaObjeto))).Methods("GET")
+	router.HandleFunc("/consultaobjetotag", middlew.ChequeoBD(middlew.ValidoJWT(routers.ConsultaObjetosXTag))).Methods("GET")
+	router.HandleFunc("/consultaobjetocaracteristicas", middlew.ChequeoBD(middlew.ValidoJWT(routers.ConsultaObjetosXCaracteristicas))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

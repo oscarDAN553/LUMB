@@ -7,10 +7,11 @@ import (
 
 	"github.com/oscarDAN553/LUMB/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 /*BuscoXTag busca objetos en la DB por un tag elegido*/
-func BuscoXTag(tag string) ([]models.Objeto, error) {
+func BuscoXTag(tag string, page int64) ([]*models.Objeto, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
@@ -18,22 +19,36 @@ func BuscoXTag(tag string) ([]models.Objeto, error) {
 	db := MongoCN.Database("LUMB")
 	col := db.Collection("objects")
 
-	var objetos []models.Objeto
+	var objetos []*models.Objeto
+
+	findOptions := options.Find()
+	findOptions.SetSkip((page - 1) * 20)
+	findOptions.SetLimit(20)
 
 	condicion := bson.M{
-		"tag": tag,
+
+		"tags": tag,
 	}
 
-	cursor, err := col.Find(ctx, condicion)
+	cursor, err := col.Find(ctx, condicion, findOptions)
 	if err != nil {
-		fmt.Println("NO SE ENCONTRO NINGUN PRODUCTO CON ESE TAG")
+		fmt.Println("NO SE ENCONTRO NINGUN PRODUCTO CON ESE TAG" + err.Error())
 		return objetos, err
 	}
-	errDecode := cursor.Decode(&objetos)
-	if errDecode != nil {
-		fmt.Println("NO SE DECODIFICARON LOS OBJETOS ENCONTADOS POR ESE TAG")
-		return objetos, errDecode
-	}
-	return objetos, nil
+	for cursor.Next(ctx) {
+		var obj models.Objeto
 
+		err := cursor.Decode(&obj)
+		if err != nil {
+			fmt.Println(err.Error())
+			return objetos, err
+		}
+		objetos = append(objetos, &obj)
+	}
+	err = cursor.Err()
+	if err != nil {
+		return objetos, err
+	}
+	cursor.Close(ctx)
+	return objetos, nil
 }
