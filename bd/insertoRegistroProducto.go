@@ -15,7 +15,7 @@ func InsertoRegistroProducto(t models.Objeto) (string, bool, error) {
 	defer cancel()
 
 	bd := MongoCN.Database("LUMB")
-	col := bd.Collection("objects")
+	col := bd.Collection("objectss")
 
 	result, err := col.InsertOne(ctx, t)
 
